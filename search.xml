@@ -45,6 +45,17 @@
     
     
     <entry>
+      <title>link</title>
+      <link href="/about/index.html"/>
+      <url>/about/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title></title>
       <link href="/css/background.css"/>
       <url>/css/background.css</url>
@@ -78,11 +89,11 @@
     
     
     <entry>
-      <title>link</title>
-      <link href="/about/index.html"/>
-      <url>/about/index.html</url>
+      <title></title>
+      <link href="/css/jianbian.css"/>
+      <url>/css/jianbian.css</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[/* 页脚footer *//* 渐变色滚动动画 */@-webkit-keyframes Gradient {    0% {        background-position: 0 50%;    }     50% {        background-position: 100% 50%;    }     100% {        background-position: 0 50%;    }} @-moz-keyframes Gradient {    0% {        background-position: 0 50%;    }     50% {        background-position: 100% 50%;    }     100% {        background-position: 0 50%;    }} @keyframes Gradient {    0% {        background-position: 0 50%;    }     50% {        background-position: 100% 50%;    }     100% {        background-position: 0 50%;    }}#footer {    background: linear-gradient(-45deg, #ee7752, #ce3e75, #23a6d5, #23d5ab);    background-size: 400% 400%;    -webkit-animation: Gradient 10s ease infinite;    -moz-animation: Gradient 10s ease infinite;    animation: Gradient 10s ease infinite;    -o-user-select: none;    -ms-user-select: none;    -webkit-user-select: none;    -moz-user-select: none;    user-select: none;    border-top-left-radius: 10px;    border-top-right-radius: 10px;}#footer:before {    background-color: rgba(0, 0, 0, 0);}]]></content>
       
     </entry>
     
@@ -90,10 +101,10 @@
     
     <entry>
       <title></title>
-      <link href="/css/jianbian.css"/>
-      <url>/css/jianbian.css</url>
+      <link href="/css/shouji.css"/>
+      <url>/css/shouji.css</url>
       
-        <content type="html"><![CDATA[/* 页脚footer *//* 渐变色滚动动画 */@-webkit-keyframes Gradient {    0% {        background-position: 0 50%;    }     50% {        background-position: 100% 50%;    }     100% {        background-position: 0 50%;    }} @-moz-keyframes Gradient {    0% {        background-position: 0 50%;    }     50% {        background-position: 100% 50%;    }     100% {        background-position: 0 50%;    }} @keyframes Gradient {    0% {        background-position: 0 50%;    }     50% {        background-position: 100% 50%;    }     100% {        background-position: 0 50%;    }}#footer {    background: linear-gradient(-45deg, #ee7752, #ce3e75, #23a6d5, #23d5ab);    background-size: 400% 400%;    -webkit-animation: Gradient 10s ease infinite;    -moz-animation: Gradient 10s ease infinite;    animation: Gradient 10s ease infinite;    -o-user-select: none;    -ms-user-select: none;    -webkit-user-select: none;    -moz-user-select: none;    user-select: none;    border-top-left-radius: 10px;    border-top-right-radius: 10px;}#footer:before {    background-color: rgba(0, 0, 0, 0);}]]></content>
+        <content type="html"><![CDATA[.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {    left: -66px !important;    /* 默认情况下缩进左侧66px，只留一点箭头部分 */  }    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {    left: 0 !important;    /* 鼠标悬停是左侧缩进归零，完全显示按钮 */  }/*移动端优化：去除归档、标签、最新文章、公告、、只保留网站统计*/@media screen and (max-width: 800px) {    #aside_content    div:not(:last-child) {        display: none;        font-size: 13px;    }}]]></content>
       
     </entry>
     
@@ -116,17 +127,6 @@
       <url>/tags/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title></title>
-      <link href="/css/shouji.css"/>
-      <url>/css/shouji.css</url>
-      
-        <content type="html"><![CDATA[/*移动端优化：去除归档、标签、最新文章、公告、、只保留网站统计*/@media screen and (max-width: 800px) {    #aside_content    div:not(:last-child) {        display: none;        font-size: 13px;    }}]]></content>
       
     </entry>
     
