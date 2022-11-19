@@ -1,0 +1,1370 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>HCNA | 优秀い</title><meta name="author" content="优秀い"><meta name="copyright" content="优秀い"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="OSPFDR和BDR：  只要是多路访问BMA和NBMA网络中，为了减少邻接关系的数量，从而减少数据包交换次数，最终节省宽带，降低对路由器处理能力的压力，选举DR和BDR  选举规则：  首先比较Hello报文携带的优先级  优先级范围0-255，默认为1 优先级最高的被选举为DR，优先级次高的被选举为BDR 优先级为0的不参与选举  优先级一致的情况下，比较RID，越大越优 选举具有非抢占性，除">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HCNA">
+<meta property="og:url" content="http://zhangguichuan.top/2022/11/19/HCNA/index.html">
+<meta property="og:site_name" content="优秀い">
+<meta property="og:description" content="OSPFDR和BDR：  只要是多路访问BMA和NBMA网络中，为了减少邻接关系的数量，从而减少数据包交换次数，最终节省宽带，降低对路由器处理能力的压力，选举DR和BDR  选举规则：  首先比较Hello报文携带的优先级  优先级范围0-255，默认为1 优先级最高的被选举为DR，优先级次高的被选举为BDR 优先级为0的不参与选举  优先级一致的情况下，比较RID，越大越优 选举具有非抢占性，除">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://zhangguichuan.top//picture/default_cover_69.webp">
+<meta property="article:published_time" content="2022-11-19T03:44:20.139Z">
+<meta property="article:modified_time" content="2022-11-19T04:24:20.416Z">
+<meta property="article:author" content="优秀い">
+<meta property="article:tag" content="网络">
+<meta property="article:tag" content="HCNA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://zhangguichuan.top//picture/default_cover_69.webp"><link rel="shortcut icon" href="/picture/favicon.ico"><link rel="canonical" href="http://zhangguichuan.top/2022/11/19/HCNA/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'HCNA',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-11-19 12:24:20'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="/css/jianbian.css"><link rel="stylesheet" href="/css/shouji.css"><link rel="stylesheet" href="/css/fengche.css"<!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-clock/lib/clock.min.css" /><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/picture/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-rocket"></i><span> 个人</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/life/"><i class="fa-fw fa-solid fa-dragon"></i><span> 生活</span></a></li><li><a class="site-page child" href="/love/"><i class="fa-fw fas fa-heart"></i><span> 恋爱屋</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fa-solid fa-pen"></i><span> 关于</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: \picture\default_cover_69.webp"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">优秀い</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-solid fa-rocket"></i><span> 个人</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/life/"><i class="fa-fw fa-solid fa-dragon"></i><span> 生活</span></a></li><li><a class="site-page child" href="/love/"><i class="fa-fw fas fa-heart"></i><span> 恋爱屋</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fa-solid fa-pen"></i><span> 关于</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">HCNA</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-11-19T03:44:20.139Z" title="发表于 2022-11-19 11:44:20">2022-11-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-19T04:24:20.416Z" title="更新于 2022-11-19 12:24:20">2022-11-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>20分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="HCNA"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="OSPF"><a href="#OSPF" class="headerlink" title="OSPF"></a>OSPF</h1><p><strong>DR和BDR：</strong></p>
+<ul>
+<li>只要是多路访问BMA和NBMA网络中，为了减少邻接关系的数量，从而减少数据包交换次数，最终节省宽带，降低对路由器处理能力的压力，选举DR和BDR</li>
+</ul>
+<p><strong>选举规则：</strong></p>
+<blockquote>
+<p>首先比较Hello报文携带的优先级</p>
+<ul>
+<li>优先级范围0-255，默认为1</li>
+<li>优先级最高的被选举为DR，优先级次高的被选举为BDR</li>
+<li>优先级为0的不参与选举</li>
+</ul>
+<p>优先级一致的情况下，比较RID，越大越优</p>
+<p>选举具有非抢占性，除非当DR和BDR都失效或重庆OSPF进程</p>
+</blockquote>
+<p><strong>命令</strong></p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ospf 1 router-id 1.1.1.1</td>
+<td>开启ospf，进程号缺省为1，手动配置Router ID</td>
+</tr>
+<tr>
+<td>area 0</td>
+<td>配置区域</td>
+</tr>
+<tr>
+<td>network 192.168.0.0 0.0.0.255</td>
+<td>宣告网络，即指定运行ospf的接口；使用反掩码来匹配</td>
+</tr>
+<tr>
+<td>dis ospf peer [brief]</td>
+<td>显示ospf邻居信息</td>
+</tr>
+<tr>
+<td>ospf timer hello 10</td>
+<td>修改Hello包发生间隔</td>
+</tr>
+<tr>
+<td>ospf timer dead 40</td>
+<td>修改Hello包超时时间</td>
+</tr>
+<tr>
+<td>dis ospf int g0&#x2F;0&#x2F;0</td>
+<td>显示ospf接口信息</td>
+</tr>
+<tr>
+<td>ospf cost 10</td>
+<td>修改开销，范围1-65535，缺省为1</td>
+</tr>
+<tr>
+<td>bandwidth-reference 100</td>
+<td>调整带宽参考值，默认为100Mbps需要在在整个ospf网络中统一进行调整</td>
+</tr>
+<tr>
+<td>reset ospf process</td>
+<td>重启ospf进程</td>
+</tr>
+<tr>
+<td>ospf dr-priority 100</td>
+<td>配置DR和BDR的选举优先级，越大越大优</td>
+</tr>
+<tr>
+<td>dis ip routing-table protocol ospf</td>
+<td>查看ospf学习到的路由</td>
+</tr>
+</tbody></table>
+<p><font color='red'>OSPF缺省路由发布命令：default-route-advertise</font></p>
+<p>OSPF认证命令：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>int g0&#x2F;0&#x2F;0；ospf authentication-mode md5 1 cipher wakin</td>
+<td>配置接口认证</td>
+</tr>
+<tr>
+<td>ospf 1；area 0 ；authentication-mode mad5 1 cipher wakin</td>
+<td>配置区域认证</td>
+</tr>
+<tr>
+<td>如果同时配置，接口认证优先生效</td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h1><p><strong>交换机的主要功能：</strong></p>
+<ul>
+<li>终端设备的接入；</li>
+<li>以太网数据帧的交换，根据目的MAC地址转发数据帧；</li>
+<li>学习MAC地址，并维护MAC地址表；</li>
+<li>防止二层环路</li>
+<li>工作在数据链路层，转发数据帧</li>
+</ul>
+<p><strong><font color='red'>工作原理：根据MAC地址表中的MAC地址记录，做出智能转发</font></strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/wqingzy/blog-img/img/202211191137104.png" alt="交换机工作原理"></p>
+<table>
+<thead>
+<tr>
+<th>原理</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><font color='red'>学习(Learn)</font></td>
+<td>当从一个接口收到帧时，把帧内的<font color='aqua'>源MAC</font>与该接口进行绑定，存入MAC地址表</td>
+</tr>
+<tr>
+<td><font color='red'>泛红(Flood)</font></td>
+<td>当从一个接口收到<font color='aqua'>广播帧、组播帧、未知单播帧</font>(目标MAC不存在与MAC地址表)，吧该帧从所以其他接口转发出去，出来接口</td>
+</tr>
+<tr>
+<td><font color='red'>转发(Forward)</font></td>
+<td>当从一个接口收到<font color='aqua'>已知单播帧</font>，立即从相应的的接口转发出去</td>
+</tr>
+<tr>
+<td><font color='red'>更新(Update)</font></td>
+<td>默认每条记录保存300s；交换机重启会清空所有接口学习到的记录；接口关闭后会情况该接口学习到的记录；一个源MAC出现在另外个接口上，会删除老的记录，添加新的记录</td>
+</tr>
+<tr>
+<td>PS</td>
+<td>对于一台交换机来说：一个MAC只能关联在一个接口上或者一个接口上可以学习到多个MAC</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>以太网接口工作模式：</p>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>半双工(half-duplex)</td>
+<td>通信双方都能发生和接收数据，但不能同时进行</td>
+</tr>
+<tr>
+<td>全双工(full-duplex)</td>
+<td>通信双发都能同时接受和发生数据</td>
+</tr>
+<tr>
+<td>速率(speed)</td>
+<td>接口连接时两端进行协商，协商失败则无法正常通行</td>
+</tr>
+</tbody></table>
+<h1 id="VLAN"><a href="#VLAN" class="headerlink" title="VLAN"></a>VLAN</h1><p><strong>vlan概述</strong>：<font color='red'>Virtual LAN 虚拟局域网</font></p>
+<ul>
+<li>将一个物理局域网在逻辑上划分成多个广播域</li>
+<li><font color='red'>1 VLAN&#x3D;1广播域&#x3D;1子网</font></li>
+<li>广播不会再VLAN之间转发，而是被限制在各自的VLAN中</li>
+<li>不同VLAN见的设备默认无法通讯，需要第三层设备才能实现互通</li>
+</ul>
+<blockquote>
+<p>vlan的范围：<font color='red'>0 - 4095共4096个</font>(0和4095保留，1为默认)</p>
+</blockquote>
+<h2 id="vlan优点："><a href="#vlan优点：" class="headerlink" title="vlan优点："></a><strong>vlan优点：</strong></h2><ul>
+<li>有效控制广播域范围</li>
+<li>增强局域网的安全性</li>
+<li>灵活构建虚拟工作组</li>
+<li>简化网络管理</li>
+</ul>
+<h2 id="vlan链路类型："><a href="#vlan链路类型：" class="headerlink" title="vlan链路类型："></a><strong>vlan链路类型：</strong></h2><p>IEEE 802.1q：dot1q</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><font color='red'>Access Link</font> 接入链路</td>
+<td>拥有连接<font color='red'>主机和交换机</font>的链路。接入链路上传输的帧都是untagged帧</td>
+</tr>
+<tr>
+<td><font color='red'>Trunk Link</font> 中继&#x2F;干道链路</td>
+<td>用于<font color='red'>交换机间的互联或交互就与路由器之间</font>的链路。中继链路上传输的帧几乎全是tagged帧用于两端识别</td>
+</tr>
+</tbody></table>
+<p><strong>PVID</strong></p>
+<ul>
+<li>即Port VLAN ID，代表端口的缺省VLAN</li>
+<li>X7系列交换机每个接口PVID&#x3D;1</li>
+</ul>
+<h2 id="VLAN端口类型："><a href="#VLAN端口类型：" class="headerlink" title="VLAN端口类型："></a><strong>VLAN端口类型：</strong></h2><p><font color='red'>Access</font>接口发送的数据包，不带标签，</p>
+<p>收到数据后会添加VLAN Tag，VLAN ID和端口的PVID相同</p>
+<p>转发数据前会移除VLAN Tag </p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/wqingzy/blog-img/img/202211191138206.png" alt="image-20220326210537646"></p>
+<p><font color='red'>Trunk中继端口</font></p>
+<p>用于连接交换机或路由器</p>
+<p>收到帧时，</p>
+<ul>
+<li>如果该帧不包含Tag，将打上端口的PVID；</li>
+<li>如果该帧包含Tag，则不改变</li>
+</ul>
+<p>发送帧时，该帧的VLAN ID在Trunk的允许发送列表中；</p>
+<ul>
+<li>若与端口的PVID相同时，则剥离tag发送；</li>
+<li>若愚端口的PVID不同时，则直接发送</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/wqingzy/blog-img/img/202211191138622.png" alt="image-20220328082751417"></p>
+<p><font color='red'>Hybrid混杂端口</font></p>
+<p>既可以连接主机，又可以连接其他交换机</p>
+<p>既可以连接接入链路又可以连接干道链路</p>
+<p>允许多个VLAN的帧通过，并可以在出接口方向将某些vlan帧的Tag剥夺(由命令决定)</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/wqingzy/blog-img/img/202211191138248.png" alt="image-20220328084009176"></p>
+<h2 id="VLAN转发流程："><a href="#VLAN转发流程：" class="headerlink" title="VLAN转发流程："></a><strong>VLAN转发流程：</strong></h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/wqingzy/blog-img/img/202211191138013.png" alt="image-20220328084623097"></p>
+<p>VLAN规划：<font color='red'>基于端口</font>最为常见</p>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>vlan 10</td>
+<td>创建单个vlan</td>
+</tr>
+<tr>
+<td>vlan batch 10 to 20</td>
+<td>创建多个vlan</td>
+</tr>
+<tr>
+<td>port link-type access&#x2F;trunk&#x2F;hybird</td>
+<td>配置接口类型</td>
+</tr>
+<tr>
+<td>port default vlan 10</td>
+<td>配置Access关联VLAN&#x2F;PVID</td>
+</tr>
+<tr>
+<td>port trunk allow-pass vlan 10</td>
+<td>配置Trunk允许vlan</td>
+</tr>
+<tr>
+<td>port trunk pvid vlan 10</td>
+<td>配置Trunk的PVID</td>
+</tr>
+<tr>
+<td>port hybird tagged&#x2F;untagged vlan 10</td>
+<td>配置Hybird标记VLAN</td>
+</tr>
+<tr>
+<td>porthybrid pvid vlan 10</td>
+<td>配置Hybird的PVID</td>
+</tr>
+<tr>
+<td>display vlan</td>
+<td>验证VLAN</td>
+</tr>
+<tr>
+<td>display port vlan</td>
+<td>验证VLAN</td>
+</tr>
+</tbody></table>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>华为交换机端口分为三种模式：access、trunk、hydird</p>
+<ul>
+<li>access端口：用于连接主机，pvid就是该端口所属的vlan号，只能属于一个vlan</li>
+<li>trunk端口：用于交换机之间连接，默认pvid是vlan1，不属于任何vlan</li>
+<li>hybird端口：是一种混合端口类型，默认pvid是vlan1，不属于任何vlan，是交换机端口的默认模式</li>
+</ul>
+<p><strong>pvid的作用：</strong></p>
+<p>1、当端口收到一个未标记的帧时，就把该帧打上vlan id，这个id值等于pvid的值，然后转发到VID和PVID相等的VLAN中</p>
+<p>2、当帧从端口向外发送出去时，如果帧头中的VID和端口的PVID值相同，就把这个标识去掉，再发送</p>
+<h1 id="vlan间路由"><a href="#vlan间路由" class="headerlink" title="vlan间路由"></a>vlan间路由</h1><p>单臂路由</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/wqingzy/blog-img/img/202211191138623.png" alt="image-20220328105039680"></p>
+<p>命令</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dot1q termination vid 10</td>
+<td>关联子接口和VLAN</td>
+</tr>
+<tr>
+<td>arp broadcast enable</td>
+<td>开启子接口的ARP广播功能(华为和华三)</td>
+</tr>
+</tbody></table>
+<p>三层交换(MLS)普遍用这个</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220328111246089.png" alt="image-20220328111246089"></p>
+<p>命令</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>interface vlanif 10</td>
+<td>创建VLAN接口</td>
+</tr>
+<tr>
+<td>PS</td>
+<td>vlan接口的编号必须对应一个已创建的vlan</td>
+</tr>
+<tr>
+<td>portswitch</td>
+<td>配置接口为2层</td>
+</tr>
+<tr>
+<td>undo portswitch</td>
+<td>配置接口为3层</td>
+</tr>
+<tr>
+<td>undo port default vlan</td>
+<td>删除access链路</td>
+</tr>
+</tbody></table>
+<h1 id="GARP-GVRP"><a href="#GARP-GVRP" class="headerlink" title="GARP-GVRP"></a>GARP-GVRP</h1><p><font color='red'>GARP：通用属性注册协议</font></p>
+<ul>
+<li>在交换机间分发、传播、注册某种信息(VLAN、组播地址等)</li>
+<li>主要用于大中型网络中，用来提升交换机的管理效率</li>
+<li>一种协议规范</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220329100527782.png" alt="image-20220329100527782"></p>
+<p>GARP消息类型：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>join</td>
+<td>加入，端口加入VLAN</td>
+</tr>
+<tr>
+<td>Leave</td>
+<td>注销，端口推出VLAN</td>
+</tr>
+<tr>
+<td>Leave all</td>
+<td>注销所有</td>
+</tr>
+</tbody></table>
+<p><font color='red'>GVRP：VLAN注册协议 </font>应用</p>
+<ul>
+<li><font color='aqua'>接收来自其他交换机的VLAN注册信息</font>，并动态更新本地的VLAN注册信息，包括当前的VLAN、VLAN成员</li>
+<li><font color='aqua'>将本地的VLAN注册信息向其他交换机传播</font>，以便使同一交换网内所有支持GVRP特性的设备的VLAN信息达成一致</li>
+<li>手动配置的VLAN是静态VLAN，通过GVRP创建的VLAN是动态VLAN(dynam)</li>
+<li>GVRP传播的VLAN注册信息包括本地手工配置的静态注册信息和其他交换机的动态注册信息</li>
+</ul>
+<p><font color='red'>单向注册</font></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220329104103456.png" alt="image-20220329104103456"></p>
+<p><font color='red'>GVRP注册模式</font></p>
+<p>normal：静态和动态都会学习到</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220329102150962.png" alt="image-20220329102150962"></p>
+<p>forbidden：除了vlan1，其他的vlan都不能注册，还会删除</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220329102219124.png" alt="image-20220329102219124"></p>
+<p>fixed：只有静态能注册</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220329102625770.png" alt="image-20220329102625770"></p>
+<p><strong>命令</strong></p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>gvrp</td>
+<td>全局开启GVRP，默认关闭</td>
+</tr>
+<tr>
+<td>gvrp</td>
+<td>接口开启GVRP，接口必须是Trunk，且不能在更改</td>
+</tr>
+<tr>
+<td>gvrp registration</td>
+<td>修改GVRP注册模式</td>
+</tr>
+<tr>
+<td>display gvrp status</td>
+<td>查看GVRP状态</td>
+</tr>
+</tbody></table>
+<h1 id="STP"><a href="#STP" class="headerlink" title="STP"></a>STP</h1><p>STP：生成树协议，提供两大功能：</p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>消除环路</td>
+<td>通过阻断冗余链路来消除网络中可能存在的环路</td>
+</tr>
+<tr>
+<td>链路备份</td>
+<td>当活动路径发送故障时，激活备份链路，及时恢复网络连通性</td>
+</tr>
+</tbody></table>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220329112419496.png" alt="image-20220329112419496"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220329112433858.png" alt="image-20220329112433858"></p>
+<h2 id="STP选举步骤"><a href="#STP选举步骤" class="headerlink" title="STP选举步骤"></a>STP选举步骤</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220329150435876.png" alt="image-20220329150435876"></p>
+<p><font color='red'>BPDU：桥协议数据单元</font></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220329150832741.png" alt="image-20220329150832741"></p>
+<p>桥ID</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220329151927984.png" alt="image-20220329151927984"></p>
+<p>端口ID</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220329152027839.png" alt="image-20220329152027839"></p>
+<h2 id="stp选举过程"><a href="#stp选举过程" class="headerlink" title="stp选举过程"></a>stp选举过程</h2><p><font color='red'>BID最小</font>的成为根桥(先比较优先级，再比较MAC)</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220329153037103.png" alt="image-20220329153037103"></p>
+<p><font color='red'>根端口选举</font></p>
+<p>根交换机的对端端口为根端口，根桥的各个端口为指定端口</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220329153314185.png" alt="image-20220329153314185"></p>
+<p><font color='red'>指定端口选举</font></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220329154050133.png" alt="image-20220329154050133"></p>
+<h2 id="stp端口转换"><a href="#stp端口转换" class="headerlink" title="stp端口转换"></a>stp端口转换</h2><p>注：listening变为learning需要15s，learning变为Forwarding需要15s</p>
+<p><font color='red'>BPDU老化是20S</font>，所以总共需要30s</p>
+<blockquote>
+<p>1、端口初始化或开启<font color='red'>(disabled)</font></p>
+<p>2、端口被选为根端口或指定端口<font color='red'>(blocking)</font></p>
+<p>3、端口不再是根端口或指定端口<font color='red'>(listening)</font></p>
+<p>4、Forward Delay计时器超时<font color='red'>(learning)</font></p>
+<p>5、端口禁用或链路失效<font color='red'>(Forwarding)</font></p>
+</blockquote>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220329202626358.png" alt="image-20220329202626358"></p>
+<h2 id="stp拓扑变化"><a href="#stp拓扑变化" class="headerlink" title="stp拓扑变化"></a>stp拓扑变化</h2><p>根桥故障</p>
+<p>直连链路故障需要30s，阻塞端口才能变成根端口</p>
+<p>非直连链路故障需要50s</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220329204210002.png" alt="image-20220329204210002"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220329204952660.png" alt="image-20220329204952660"></p>
+<p>检测到拓扑改变的交换机通过根端口向根桥发送TCN，上游交换机收到TCN后回应TCA，让后下游交换机停止发送TCN，再通过根端口发送TCN直到根桥收到，根桥通过指定端口发送TC通知所有下游交互机把<font color='aqua'>MAC地址记录老化时间从300秒变为15秒</font></p>
+<h2 id="命令-1"><a href="#命令-1" class="headerlink" title="命令"></a>命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>stp mode （mstp | stp | rstp）</td>
+<td>配置stp模式，默认为MSTP</td>
+</tr>
+<tr>
+<td>stp priority 4096</td>
+<td>配置BID优先级值，0-61440，步长为4096</td>
+</tr>
+<tr>
+<td>stp root primary&#x2F;secondary</td>
+<td>自动修改优先级，指定主&#x2F;备根桥</td>
+</tr>
+<tr>
+<td>stp pathcost-standard （dot1d-1998 | dot1t | legacy</td>
+<td>配置路径开销值的标准</td>
+</tr>
+<tr>
+<td>开销标准：</td>
+<td>legacy：cost&#x3D;1~200000,华为私有</td>
+</tr>
+<tr>
+<td></td>
+<td>802.1d标准：cost&#x3D;1~65535</td>
+</tr>
+<tr>
+<td></td>
+<td>802.1t标准：cost&#x3D;1~200000000,默认</td>
+</tr>
+<tr>
+<td>stp cost 10</td>
+<td>修改stp开销</td>
+</tr>
+<tr>
+<td>stp prot priority 144</td>
+<td>修改PID优先级，步长为16</td>
+</tr>
+<tr>
+<td>display stp {brief}</td>
+<td>显示stp配置信息和参数</td>
+</tr>
+</tbody></table>
+<h1 id="RSTP"><a href="#RSTP" class="headerlink" title="RSTP"></a>RSTP</h1><h1 id="DHCP"><a href="#DHCP" class="headerlink" title="DHCP"></a>DHCP</h1><p><font color='red'>DHCP：Dynamic Host Configure Protocol动态主机配置协议</font></p>
+<ul>
+<li><p>从BOOTP协议发展而来</p>
+</li>
+<li><p>UDP封装，服务器67，客户端68</p>
+</li>
+<li><p>动态分配TCP&#x2F;IP信息(IP地址、子网掩码、默认网关、DNS服务器等)</p>
+</li>
+<li><p>分配出去的信息是有租约的</p>
+</li>
+</ul>
+<h2 id="DHCP报文类型："><a href="#DHCP报文类型：" class="headerlink" title="DHCP报文类型："></a>DHCP报文类型：</h2><table>
+<thead>
+<tr>
+<th>报文类型</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DHCP DISCOVER</td>
+<td>客户端用来寻找DHCP服务器</td>
+</tr>
+<tr>
+<td>DHCP OFFER</td>
+<td>DHCP服务器用来响应DHCP DISCOVER报文，此报文携带了各种配置信息</td>
+</tr>
+<tr>
+<td>DHCP REQUEST</td>
+<td>客户端请求配置确认，或者续借租期</td>
+</tr>
+<tr>
+<td>DHCP ACK</td>
+<td>服务器对REQUEST报文的确认响应</td>
+</tr>
+<tr>
+<td>DHCP NAK</td>
+<td>服务器对REQUEST报文的拒绝响应</td>
+</tr>
+<tr>
+<td>DHCP RELEASE</td>
+<td>客户端要释放地址时用来通知服务器</td>
+</tr>
+</tbody></table>
+<p><strong>DHCP工作流程</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220330153512030.png" alt="image-20220330153512030"></p>
+<p><strong>DHCP地址池(Pool)：<font color='red'>所分配地址的集合</font></strong></p>
+<ul>
+<li><p>接口地址池的优先级比全局地址高</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220330163720000.png" alt="image-20220330163720000"></p>
+</li>
+</ul>
+<h2 id="命令-2"><a href="#命令-2" class="headerlink" title="命令"></a>命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dhcp enable；dhcp select interface</td>
+<td>开启DHCP功能，华为默认不开启</td>
+</tr>
+<tr>
+<td>dhcp server dns-list 地址</td>
+<td>关联接口和接口地址池</td>
+</tr>
+<tr>
+<td>dhcp server lease 数字</td>
+<td>配置接口地址池的租期，默认1天</td>
+</tr>
+<tr>
+<td>dhcp server excluded-ip-address 地址</td>
+<td>配置接口地址池的排除地址范围</td>
+</tr>
+<tr>
+<td>dhcp server static-band ip-address ip地址 mac-address mac地址</td>
+<td>配置静态绑定</td>
+</tr>
+<tr>
+<td>dhcp-select global</td>
+<td>关联接口和全局地址池</td>
+</tr>
+<tr>
+<td>ip pool 名称</td>
+<td>创建全局地址池</td>
+</tr>
+<tr>
+<td>network 地址</td>
+<td>配置全局地址池的可分配的网段地址</td>
+</tr>
+<tr>
+<td>gateway-list 地址</td>
+<td>配置全局地址池的网关地址</td>
+</tr>
+<tr>
+<td>dns-list 地址</td>
+<td>配置全局地址池的DNS服务器地址</td>
+</tr>
+<tr>
+<td>lease 数字</td>
+<td>配置全局地址池下的租期，默认1天</td>
+</tr>
+<tr>
+<td>excluded-ip-address 地址</td>
+<td>配置全局地址池下的排除地址范围</td>
+</tr>
+<tr>
+<td>dis ip pool (int 接口名 all)</td>
+<td>查看地址池的属性</td>
+</tr>
+<tr>
+<td>ipconfig &#x2F;release</td>
+<td>释放租期</td>
+</tr>
+<tr>
+<td>ipconfig &#x2F;renew</td>
+<td>重新获取</td>
+</tr>
+</tbody></table>
+<h1 id="ACL"><a href="#ACL" class="headerlink" title="ACL"></a>ACL</h1><p>ACL(Access Control List)，访问控制列表</p>
+<p>ACL应用场景</p>
+<ul>
+<li><p>ACL可以通过定义规则来允许或拒绝流量的通过</p>
+</li>
+<li><p>可以根据需求来定义过滤的条件以及匹配条件后所指向的动作</p>
+</li>
+</ul>
+<h2 id="ACL工作原理："><a href="#ACL工作原理：" class="headerlink" title="ACL工作原理："></a>ACL工作原理：</h2><ul>
+<li>ACL由<font color='red'>一条或多条规则</font>组成</li>
+<li>每条规则必须选择动作：<font color='red'>允许(permit)或拒绝(deny)</font></li>
+<li>每条规则都有一个id序列号（默认&#x3D;5，间隔&#x3D;5）</li>
+<li>序列号<font color='red'>越小越先</font>进行匹配，先细后出</li>
+<li>只要有一条规则和报文匹配，就停止查找，称为<font color='red'>命中规则</font></li>
+<li>查找完所有规则，如果没有符合条件的规则，称为<font color='red'>未命中规则</font></li>
+<li>ACL创建后，必须将其<font color='red'>应用</font>到某个接口或其他技术内才会生效</li>
+<li>应用在接口时必须选择方向：<font color='red'>入站或出战</font>(相对设备来判断)</li>
+<li>不能过滤由<font color='red'>设备自己</font>产生的数据</li>
+</ul>
+<h2 id="ACL类型："><a href="#ACL类型：" class="headerlink" title="ACL类型："></a>ACL类型：</h2><p>ACL又分为数字型ACL和命名型ACL</p>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>编号范围</th>
+<th>参数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>基本ACL</td>
+<td>2000-2999</td>
+<td>源IP</td>
+</tr>
+<tr>
+<td>高级ACL</td>
+<td>3000-3999</td>
+<td>源IP、目的I源端口、目的端口等</td>
+</tr>
+<tr>
+<td>二层ACL</td>
+<td>4000-4999</td>
+<td>源MAC地址、目的MAC地址、以太帧协议类型等</td>
+</tr>
+</tbody></table>
+<p><strong>ACL接口调用方向的建议：</strong></p>
+<p>1、基本ACL尽量调用在<font color='aqua'>离目标最近的出战接口</font></p>
+<p>2、高级ACL尽量调用在<font color='aqua'>离源头最近的入站接口</font></p>
+<h2 id="命令-3"><a href="#命令-3" class="headerlink" title="命令"></a>命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>acl 2000</td>
+<td>创建一个基本ACL</td>
+</tr>
+<tr>
+<td>rule 5 deny&#x2F;permit source 192.168.1.0 0.0.0.255</td>
+<td>配置ACL的规则：允许或拒绝源地址为192.168.1.0&#x2F;24网段内的所有流量</td>
+</tr>
+<tr>
+<td>acl 3000</td>
+<td>创建一个高级ACL</td>
+</tr>
+<tr>
+<td>rule 5 deny&#x2F;permit tcp source 192.168.1.0 0.0.0.255 destination 8.8.8.8 0 destination-port eq 80</td>
+<td>配置ACL的规则：允许或拒绝源地址为192.168.1.0&#x2F;24网段内到8.8.8.8的HTTP流量</td>
+</tr>
+<tr>
+<td>traffic-filter inbound&#x2F;outbound acl 2000</td>
+<td>在接口调用ALC过滤流量</td>
+</tr>
+<tr>
+<td>dis acl 2000</td>
+<td>验证ACL</td>
+</tr>
+<tr>
+<td>dis traffic-filter acl 3000</td>
+<td>查看设备上所有基于ACL调用情况</td>
+</tr>
+</tbody></table>
+<h1 id="NAT"><a href="#NAT" class="headerlink" title="NAT"></a>NAT</h1><p>NAT：网络地址转换技术NAT(Network Address Translation)主要用于实现位于内部网络的主机访问外部网络的功能，当局域网内的主机需要访问外部网络时，通过NAT技术可以将其私网地址转换为公网地址，并且多个私网用户可以公用一个公网地址，这样也既可以保证网络互通，又节省了公网地址</p>
+<p><strong>NAT的好处：</strong></p>
+<ul>
+<li>有效避免来自外网的攻击，可以很大程度上<font color='red'>提高网络安全性</font></li>
+<li>控制内网主机访问外网，同时也控制外网主机访问内网，解决了内网和外网不能互通的问题</li>
+</ul>
+<h2 id="静态NAT"><a href="#静态NAT" class="headerlink" title="静态NAT"></a>静态NAT</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220331212821748.png" alt="image-20220331212821748"></p>
+<p><strong>静态nat命令</strong></p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>nat static enable</td>
+<td>开启NAT静态功能</td>
+</tr>
+<tr>
+<td>nat static global 公网地址inside 私网地址</td>
+<td>创建静态NAT</td>
+</tr>
+<tr>
+<td>dis nat static</td>
+<td>查看静态NAT的配置</td>
+</tr>
+</tbody></table>
+<h2 id="动态NAT"><a href="#动态NAT" class="headerlink" title="动态NAT"></a>动态NAT</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220331213834773.png" alt="image-20220331213834773"></p>
+<ul>
+<li>动态NAT地址池中的地址用尽以后，只能被占用的公网地址被释放后，其他主机才能是由它来访问公网</li>
+</ul>
+<p><strong>动态NAT和PAT配置</strong></p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><font color='red'>nat address-group</font> 编号 公网地址范围</td>
+<td>配置NAT地址池</td>
+</tr>
+<tr>
+<td><font color='red'>nat outbound</font> acl 编号 address-group 编号[no-pat]</td>
+<td>关联一个ACL和一个NAT地址池。ACL用来匹配能够转换的源地址</td>
+</tr>
+<tr>
+<td><font color='red'>no-pat</font></td>
+<td>只转换地址而不转换端口</td>
+</tr>
+<tr>
+<td><font color='red'>dis nat address-group</font></td>
+<td>查看NAT地址池配置信息</td>
+</tr>
+<tr>
+<td><font color='red'>dis nat outbound</font></td>
+<td>查看动态NAT配置信息</td>
+</tr>
+</tbody></table>
+<h2 id="NAPT"><a href="#NAPT" class="headerlink" title="NAPT"></a>NAPT</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220331215519515.png" alt="image-20220331215519515"></p>
+<ul>
+<li><font color='red'>NAPT</font>(Network Address Port Translation)，也称为<font color='red'>NAT-PT或PAT</font>，网络地址端口转换，允许多个私网地址映射到同一个公网地址的不同端口</li>
+<li>通常适用于大型企业网络(申请多个固定的公网地址)</li>
+</ul>
+<h2 id="Easy-IP"><a href="#Easy-IP" class="headerlink" title="Easy IP"></a>Easy IP</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220401083035453.png" alt="image-20220401083035453"></p>
+<ul>
+<li>Easy IP适用于小规模局域网中的主机访问Internet的场景</li>
+<li>如：家庭、小型网吧、小型办公室，这些地方内部主机不多，出接口可以通过<font color='red'>拨号方式获取一个临时公网ip地址</font></li>
+</ul>
+<p><strong>Easy IP 配置</strong></p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>nat outbound acl 编号</td>
+<td>关联出战接口和ACL</td>
+</tr>
+</tbody></table>
+<h2 id="NAT服务器"><a href="#NAT服务器" class="headerlink" title="NAT服务器"></a>NAT服务器</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220401091848266.png" alt="image-20220401091848266"></p>
+<ul>
+<li>NAT具有”屏蔽”内部主机的作用，但有时内网需要向外网提供服务</li>
+<li>当外网用户访问内网服务器时，NAT Server通过事先配置好的”公网IP地址+端口号”与私网IP地址+端口号” 间的映射关系，将服务器的“公网IP地址+端口号”根据映射关系替换成对于的“私网IP地址+端口号”</li>
+</ul>
+<p><strong>NAT服务器配置</strong></p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>nat server protocol tcp&#x2F;udp global 公网地址&#x2F;接口 端口 inside 私网地址 端口</td>
+<td>配置NAT服务</td>
+</tr>
+<tr>
+<td>dis nat server</td>
+<td>验证NAT服务器</td>
+</tr>
+</tbody></table>
+<h1 id="PPP"><a href="#PPP" class="headerlink" title="PPP"></a>PPP</h1><p>广域网中经常会使用串行链路来提供远距离的数据传输，高级数据链路控制HDLC和点对点协议PPP是两种典型的串口封装协议</p>
+<h2 id="HDLC协议"><a href="#HDLC协议" class="headerlink" title="HDLC协议"></a>HDLC协议</h2><ul>
+<li>High-level Data Link Control，高级数据链路控制，简称HDLC，是一种面向比特的链路层协议</li>
+</ul>
+<p>思科默认为HDLC，华为是PPP</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220402095129930.png" alt="image-20220402095129930"></p>
+<p><strong>HDLC接口地址借用</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220402095744556.png" alt="image-20220402095744556"></p>
+<h2 id="PPP组件"><a href="#PPP组件" class="headerlink" title="PPP组件"></a><strong>PPP组件</strong></h2><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NCP网络层控制协议</td>
+<td>用于对不同的网络层协议进行连接建立和参数协商</td>
+</tr>
+<tr>
+<td>LCP链路控制协议</td>
+<td>用来认证、建立、拆除和监控PPP数据链路</td>
+</tr>
+</tbody></table>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220402102327914.png" alt="image-20220402102327914"></p>
+<p><em>这里LCP子层和IPCP子层都open，ppp链路正常建立了</em></p>
+<h2 id="PPP认证模式"><a href="#PPP认证模式" class="headerlink" title="PPP认证模式"></a>PPP认证模式</h2><table>
+<thead>
+<tr>
+<th>模式</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PAP密码认证协议</td>
+<td>以<font color='red'>明文</font>方式直接发送密码，二次握手机制，<font color='red'>发起方为被认证方</font>，可以做无限次的尝试(暴力破解)<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220402103258568.png" alt="image-20220402103258568"></td>
+</tr>
+<tr>
+<td>CHAP挑战&#x2F;质询握手认证协议</td>
+<td>以<font color='red'>MD5</font>来隐藏密码，<font color='red'>三次握手</font>机制，<font color='red'>由认证方发起认证</font>，有效避免暴力破解，在链路建立成功后具有再次认证检测机制，目前在企业网的远程接入环境中用的比较常见<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\root\AppData\Roaming\Typora\typora-user-images\image-20220402111244777.png" alt="image-20220402111244777"></td>
+</tr>
+</tbody></table>
+<h2 id="命令-4"><a href="#命令-4" class="headerlink" title="命令"></a>命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>aaa</td>
+<td><em>启用aaa配置管理</em></td>
+</tr>
+<tr>
+<td>local-user zhang password cipher hawei</td>
+<td>创建PPP认证用户</td>
+</tr>
+<tr>
+<td>local-user zhang service-type ppp</td>
+<td>创建PPP认证用户</td>
+</tr>
+<tr>
+<td>PPP authentication-mode pap&#x2F;chap</td>
+<td>开启PAP&#x2F;CHAP认证</td>
+</tr>
+<tr>
+<td>PPP pap local-user zhang password cipher hawei</td>
+<td>配置PAP凭证</td>
+</tr>
+<tr>
+<td>ppp chap user zhang ;  ppp chap password cipher huwei</td>
+<td>配置CHAP凭证</td>
+</tr>
+</tbody></table>
+<h1 id="VRRP"><a href="#VRRP" class="headerlink" title="VRRP"></a>VRRP</h1><p>VRRP：Virtual Router Redundancy Protocol，<font color='red'>虚拟路由器冗余协议</font></p>
+<ul>
+<li>将多个物理网关加入到<font color='red'>备份组</font>中，形成一台<font color='red'>虚拟网关</font>，承担物理网关的功能。</li>
+<li>只有备份组中仍有一台物理网关工作正常，虚拟网关就仍然正常工作。</li>
+<li>两个版本：VRRPv2基于IPv4，v3基于IPv6</li>
+</ul>
+<p><font color='aqua'>VRRP备份组</font>：VRRP Group</p>
+<ul>
+<li>将局域网内的一组网关设备划分在一起，称为一个备份组。</li>
+<li>由一个主(Master)和多个备(Backup)组成，功能上相当于一台虚拟网关</li>
+<li>虚拟网关具有一个虚拟IP地址，作为终端的网关IP地址</li>
+</ul>
+<h2 id="VRRP选举规则"><a href="#VRRP选举规则" class="headerlink" title="VRRP选举规则"></a>VRRP选举规则</h2><p>根据优先级，选出Master，承担网关功能</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Master</td>
+<td>负责应答对虚拟IP地址的<font color='red'>ARP请求</font>，转发发往虚拟网关的数据包</td>
+</tr>
+<tr>
+<td>Backup</td>
+<td>负责在Master故障后，<font color='red'>接替</font>Master的工作</td>
+</tr>
+<tr>
+<td>优先级</td>
+<td>0-255,默认100，<font color='red'>越大越优</font>；255保留给I<font color='red'>P地址拥有者</font>使用；0用于触发Backup立即成为Master；如果优先级一致，IP地址越大越先</td>
+</tr>
+<tr>
+<td>抢占规则</td>
+<td>默认开启抢占</td>
+</tr>
+</tbody></table>
+<h2 id="VRRP工作流程"><a href="#VRRP工作流程" class="headerlink" title="VRRP工作流程"></a>VRRP工作流程</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="E:\Typora\file\CCNA\新CCNA.assets\VRRP工作流程1.png" alt="VRRP工作流程1"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="E:\Typora\file\CCNA\新CCNA.assets\VRRP工作流程2.png" alt="VRRP工作流程2"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="E:\Typora\file\CCNA\新CCNA.assets\VRRP工作流程3.png" alt="VRRP工作流程3"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="E:\Typora\file\CCNA\新CCNA.assets\VRRP工作流程4.png" alt="VRRP工作流程4"></p>
+<h2 id="VRRP定时器"><a href="#VRRP定时器" class="headerlink" title="VRRP定时器"></a>VRRP定时器</h2><table>
+<thead>
+<tr>
+<th>定时器</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><font color='red'>通告间隔定时器</font></td>
+<td><font color='aqua'>默认1秒</font>。Master会定时发送VRRP通过报文，通知自己工作正常。如果Backup在等待了3个间隔时间后，依然没有收到通告报文，则认为自己是Master，并对外发送VRRP通告报文，重新进行Master的选举</td>
+</tr>
+<tr>
+<td><font color='red'>抢占延迟定时器</font></td>
+<td><font color='aqua'>默认0秒</font>。为了避免频繁进行<font color='aqua'>主备转换</font>，让Backup有足够的时间收集必要的信息(如路由信息)。Backup接收到优先级较低的VRRP通告报文后，不会立即抢占成为Master，而是等待一定时间后，才会对外发送VRRP通告报文取代原来的Master。</td>
+</tr>
+</tbody></table>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="E:\typora\file\CCNA\新CCNA.assets\VRRP报文格式5.png" alt="VRRP报文格式5"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="E:\typora\file\CCNA\新CCNA.assets\VRRP状态机制6.png" alt="VRRP状态机制6"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="E:\typora\file\CCNA\新CCNA.assets\VRRP设计方案注意事项7.png" alt="VRRP设计方案注意事项7"></p>
+<h2 id="VRRP应用"><a href="#VRRP应用" class="headerlink" title="VRRP应用"></a>VRRP应用</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="E:\typora\file\CCNA\新CCNA.assets\VRRP应用-主备备份8.png" alt="VRRP应用-主备备份8"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="E:\typora\file\CCNA\新CCNA.assets\VRRP应用-负载分担8.png" alt="VRRP应用-负载分担8"></p>
+<p>用的比较多的负载分担图：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="E:\typora\file\CCNA\新CCNA.assets\VRRP应用-负载分担8.1.png" alt="VRRP应用-负载分担8.1"></p>
+<h2 id="VRRP跟踪"><a href="#VRRP跟踪" class="headerlink" title="VRRP跟踪"></a>VRRP跟踪</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="E:\typora\file\CCNA\新CCNA.assets\VRRP跟踪9.png" alt="VRRP跟踪9"></p>
+<h2 id="命令-5"><a href="#命令-5" class="headerlink" title="命令"></a>命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><font color='red'>vrrp vrip 1 virual-ip</font> <font color='aqua'>192.168.1.254</font></td>
+<td>创建备份组及虚拟IP地址</td>
+</tr>
+<tr>
+<td><font color='red'>vrrp vrip 1 priority</font> <font color='aqua'>200</font></td>
+<td>配置优先级</td>
+</tr>
+<tr>
+<td><font color='red'>vrrp vrip 1 timer advertise 1</font></td>
+<td>配置通告延迟，默认为1s</td>
+</tr>
+<tr>
+<td><font color='red'>vrrp vrip 1 preempt-mode disable</font></td>
+<td>关闭抢占模式</td>
+</tr>
+<tr>
+<td><font color='red'>vrrp vrip 1 preempt-mode timer delay 3</font></td>
+<td>配置抢占时延，默认为0s</td>
+</tr>
+<tr>
+<td><font color='red'>vrrp vrip 1 authentication-mode simple&#x2F;md5 zhang</font></td>
+<td>配置认证</td>
+</tr>
+<tr>
+<td><font color='red'>vrrp vrip 1 track </font><font color='aqua'>interface vlanif 10  reduced&#x2F;increased</font></td>
+<td>配置接口跟踪,如果检测的接口down了那么它vrrp的优先级就会默认减10，可以修改</td>
+</tr>
+<tr>
+<td><font color='red'>display vrrp </font><font color='aqua'>brief&#x2F;interface</font></td>
+<td>验证VRRP</td>
+</tr>
+</tbody></table>
+<h1 id="BFD"><a href="#BFD" class="headerlink" title="BFD"></a>BFD</h1><p>BFD：<font color='red'>Bidirectional Forwarding Detection，双向转发检测</font></p>
+<ul>
+<li>解决了上述检测机制的不足</li>
+<li>通用、标准化、介质无关、协议无关，为上层协议服务</li>
+<li><font color='aqua'>全网统一</font>的检测机制，用于<font color='aqua'>快速检测</font>、监控网络中<font color='aqua'>链路</font>或<font color='aqua'>路由</font>的转发连通状况</li>
+<li>保证邻居之间能够快速检测到通信故障，从而快速建立起备用通道恢复通信</li>
+</ul>
+<p>BFD工作机制：</p>
+<ul>
+<li>本身没有发现机制，靠上层协议通知</li>
+<li>建立BFD会话，周期性发送BFD控制报文进行检测</li>
+<li>检测到故障后，再通知上层协议</li>
+</ul>
+<h2 id="BFD状态机制"><a href="#BFD状态机制" class="headerlink" title="BFD状态机制"></a>BFD状态机制</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="E:\typora\file\CCNA\新CCNA.assets\BFD\BFD状态机制.png" alt="BFD状态机制"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="E:\typora\file\CCNA\新CCNA.assets\BFD\BFD状态机制2.png" alt="BFD状态机制2"></p>
+<ul>
+<li><font color='red'>状态迁移规则</font>：对端状态变化、检测定时器超时</li>
+</ul>
+<h2 id="BFD会话工作方式"><a href="#BFD会话工作方式" class="headerlink" title="BFD会话工作方式"></a>BFD会话工作方式</h2><table>
+<thead>
+<tr>
+<th>控制报文方式</th>
+<th>链路两端会话通过控制报文交互监测链路状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Echo报文方式</td>
+<td>链路某一端通过发送Echo报文由另外一端转发回来，实现对链路的双向监测</td>
+</tr>
+</tbody></table>
+<h2 id="BFD报文格式"><a href="#BFD报文格式" class="headerlink" title="BFD报文格式"></a>BFD报文格式</h2><p><strong><font color='aqua'>使用组播地址&#x3D;224.0.0.184</font></strong></p>
+<table>
+<thead>
+<tr>
+<th>控制报文</th>
+<th>单跳检测其UDP目的端口号为3784；多跳检测其UDP目的端口号为4784</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Echo</td>
+<td>UDP目的端口号为3785</td>
+</tr>
+</tbody></table>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="E:\typora\file\CCNA\新CCNA.assets\BFD\BFD报文格式.png" alt="BFD报文格式"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="E:\typora\file\CCNA\新CCNA.assets\BFD\BFD运行模式.png" alt="BFD运行模式"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="E:\typora\file\CCNA\新CCNA.assets\BFD\BFD应用场景.png" alt="BFD应用场景"></p>
+<h2 id="BFD检测IP链路1"><a href="#BFD检测IP链路1" class="headerlink" title="BFD检测IP链路1"></a><strong>BFD检测IP链路1</strong></h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="E:\typora\file\CCNA\新CCNA.assets\BFD\BFD检测IP链路1.png" alt="BFD检测IP链路1"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="E:\typora\file\CCNA\新CCNA.assets\BFD\BFD检测IP链路2.png" alt="BFD检测IP链路2"></p>
+<h2 id="命令-6"><a href="#命令-6" class="headerlink" title="命令"></a>命令</h2><p>BFD：开启BFD，创建BFD会话，配置BFD会话标识符</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>bfd</td>
+<td>开启BFD功能，默认关闭</td>
+</tr>
+<tr>
+<td>bfd 1 bind peer-ip default-ip int g0&#x2F;0&#x2F;0</td>
+<td>创建二层端口检测</td>
+</tr>
+<tr>
+<td>bfd 1 bind peer-ip 12.0.0.2 [int vlanif 1]</td>
+<td>创建三层接口检测</td>
+</tr>
+<tr>
+<td>discriminator local&#x2F;remote 10&#x2F;20</td>
+<td>配置本地标识符和远端标识符</td>
+</tr>
+<tr>
+<td>commit</td>
+<td>提交BFD会话配置</td>
+</tr>
+<tr>
+<td>min-tx-interval 100；min-rx-interval 100</td>
+<td>配置BFD报文发送和接收间隔。默认为1000毫秒</td>
+</tr>
+<tr>
+<td>detect-multiplier 3</td>
+<td>配置本地检测倍数，默认&#x3D;3</td>
+</tr>
+<tr>
+<td>display bfd session all verbose</td>
+<td>验证BFD会话状态</td>
+</tr>
+<tr>
+<td>process-interface-status</td>
+<td>配置与接口状态联动</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>vrrp vrid 1 track bfd-session 10</th>
+<th>配置与VRRP联动</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>bfd all-interfaces enable</td>
+<td>配置与OSPF联动</td>
+</tr>
+<tr>
+<td>peer x.x.x.x bfd enable</td>
+<td>配置与BFD联动</td>
+</tr>
+<tr>
+<td>ip router-static x.x.x.x x x.x.x.x track bfd-session 1</td>
+<td>配置与静态路由联动</td>
+</tr>
+</tbody></table>
+<ul>
+<li>检测时间公式：本端检测间隔&#x3D;对端检测倍数*max(对端发送间隔，本段接收间隔)</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>HCNA</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="http://zhangguichuan.top/2022/11/19/HCNA/">http://zhangguichuan.top/2022/11/19/HCNA/</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>优秀い</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2022-11-19</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2022-11-19</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C/">网络</a><a class="post-meta__tags" href="/tags/HCNA/">HCNA</a></div><div class="post_share"><div class="social-share" data-image="/%5Cpicture%5Cdefault_cover_69.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2022/11/18/%E8%BD%AF%E8%80%83/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/%5Cpicture%5Cdefault_cover_69.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">软考-网工</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/picture/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">优秀い</div><div class="author-info__description">真诚才是必杀技！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/wqingzy"><i class="fab fa-github"></i><span>🛴前往小家...</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/wqingzy" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:1851504989@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#OSPF"><span class="toc-number">1.</span> <span class="toc-text">OSPF</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-number">2.</span> <span class="toc-text">交换机</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#VLAN"><span class="toc-number">3.</span> <span class="toc-text">VLAN</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#vlan%E4%BC%98%E7%82%B9%EF%BC%9A"><span class="toc-number">3.1.</span> <span class="toc-text">vlan优点：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vlan%E9%93%BE%E8%B7%AF%E7%B1%BB%E5%9E%8B%EF%BC%9A"><span class="toc-number">3.2.</span> <span class="toc-text">vlan链路类型：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VLAN%E7%AB%AF%E5%8F%A3%E7%B1%BB%E5%9E%8B%EF%BC%9A"><span class="toc-number">3.3.</span> <span class="toc-text">VLAN端口类型：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VLAN%E8%BD%AC%E5%8F%91%E6%B5%81%E7%A8%8B%EF%BC%9A"><span class="toc-number">3.4.</span> <span class="toc-text">VLAN转发流程：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4"><span class="toc-number">3.5.</span> <span class="toc-text">命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.6.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#vlan%E9%97%B4%E8%B7%AF%E7%94%B1"><span class="toc-number">4.</span> <span class="toc-text">vlan间路由</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GARP-GVRP"><span class="toc-number">5.</span> <span class="toc-text">GARP-GVRP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#STP"><span class="toc-number">6.</span> <span class="toc-text">STP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#STP%E9%80%89%E4%B8%BE%E6%AD%A5%E9%AA%A4"><span class="toc-number">6.1.</span> <span class="toc-text">STP选举步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#stp%E9%80%89%E4%B8%BE%E8%BF%87%E7%A8%8B"><span class="toc-number">6.2.</span> <span class="toc-text">stp选举过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#stp%E7%AB%AF%E5%8F%A3%E8%BD%AC%E6%8D%A2"><span class="toc-number">6.3.</span> <span class="toc-text">stp端口转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#stp%E6%8B%93%E6%89%91%E5%8F%98%E5%8C%96"><span class="toc-number">6.4.</span> <span class="toc-text">stp拓扑变化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4-1"><span class="toc-number">6.5.</span> <span class="toc-text">命令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RSTP"><span class="toc-number">7.</span> <span class="toc-text">RSTP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DHCP"><span class="toc-number">8.</span> <span class="toc-text">DHCP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#DHCP%E6%8A%A5%E6%96%87%E7%B1%BB%E5%9E%8B%EF%BC%9A"><span class="toc-number">8.1.</span> <span class="toc-text">DHCP报文类型：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4-2"><span class="toc-number">8.2.</span> <span class="toc-text">命令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ACL"><span class="toc-number">9.</span> <span class="toc-text">ACL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ACL%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%EF%BC%9A"><span class="toc-number">9.1.</span> <span class="toc-text">ACL工作原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ACL%E7%B1%BB%E5%9E%8B%EF%BC%9A"><span class="toc-number">9.2.</span> <span class="toc-text">ACL类型：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4-3"><span class="toc-number">9.3.</span> <span class="toc-text">命令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NAT"><span class="toc-number">10.</span> <span class="toc-text">NAT</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81NAT"><span class="toc-number">10.1.</span> <span class="toc-text">静态NAT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81NAT"><span class="toc-number">10.2.</span> <span class="toc-text">动态NAT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NAPT"><span class="toc-number">10.3.</span> <span class="toc-text">NAPT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Easy-IP"><span class="toc-number">10.4.</span> <span class="toc-text">Easy IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NAT%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">10.5.</span> <span class="toc-text">NAT服务器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PPP"><span class="toc-number">11.</span> <span class="toc-text">PPP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HDLC%E5%8D%8F%E8%AE%AE"><span class="toc-number">11.1.</span> <span class="toc-text">HDLC协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PPP%E7%BB%84%E4%BB%B6"><span class="toc-number">11.2.</span> <span class="toc-text">PPP组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PPP%E8%AE%A4%E8%AF%81%E6%A8%A1%E5%BC%8F"><span class="toc-number">11.3.</span> <span class="toc-text">PPP认证模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4-4"><span class="toc-number">11.4.</span> <span class="toc-text">命令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#VRRP"><span class="toc-number">12.</span> <span class="toc-text">VRRP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#VRRP%E9%80%89%E4%B8%BE%E8%A7%84%E5%88%99"><span class="toc-number">12.1.</span> <span class="toc-text">VRRP选举规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VRRP%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">12.2.</span> <span class="toc-text">VRRP工作流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VRRP%E5%AE%9A%E6%97%B6%E5%99%A8"><span class="toc-number">12.3.</span> <span class="toc-text">VRRP定时器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VRRP%E5%BA%94%E7%94%A8"><span class="toc-number">12.4.</span> <span class="toc-text">VRRP应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VRRP%E8%B7%9F%E8%B8%AA"><span class="toc-number">12.5.</span> <span class="toc-text">VRRP跟踪</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4-5"><span class="toc-number">12.6.</span> <span class="toc-text">命令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BFD"><span class="toc-number">13.</span> <span class="toc-text">BFD</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#BFD%E7%8A%B6%E6%80%81%E6%9C%BA%E5%88%B6"><span class="toc-number">13.1.</span> <span class="toc-text">BFD状态机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BFD%E4%BC%9A%E8%AF%9D%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="toc-number">13.2.</span> <span class="toc-text">BFD会话工作方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BFD%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="toc-number">13.3.</span> <span class="toc-text">BFD报文格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BFD%E6%A3%80%E6%B5%8BIP%E9%93%BE%E8%B7%AF1"><span class="toc-number">13.4.</span> <span class="toc-text">BFD检测IP链路1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4-6"><span class="toc-number">13.5.</span> <span class="toc-text">命令</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022  <i id="heartbeat" class="fa fas fa-heartbeat"></i> 优秀い</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><div class="aplayer no-destroy" data-id="7754326279" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="30" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"]):not([href="/music/"]):not([href="/no-pjax/"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://npm.elemecdn.com/hexo-butterfly-clock/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_injector_config();
+  }
+  </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax src="https://npm.elemecdn.com/hexo-butterfly-clock/lib/clock.min.js"></script><!-- hexo injector body_end end --></body></html>
